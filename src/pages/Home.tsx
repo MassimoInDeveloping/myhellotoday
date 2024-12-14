@@ -1,53 +1,83 @@
 import { Card } from "@/components/ui/card";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface HistoryCard {
-  title: string;
+  title: { en: string; it: string };
   period: string;
-  description: string;
+  description: { en: string; it: string };
 }
 
 interface GeographyQuiz {
-  question: string;
+  question: { en: string; it: string };
   options: string[];
   correctAnswer: string;
 }
 
 export default function Home() {
   const [showAnswer, setShowAnswer] = useState<number | null>(null);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const { language } = useLanguage();
 
   const historyCards: HistoryCard[] = [
     {
-      title: "Holy Roman Empire",
+      title: {
+        en: "Holy Roman Empire",
+        it: "Sacro Romano Impero"
+      },
       period: "962-1806",
-      description: "A complex of territories in central Europe that developed during the Middle Ages. It was also known as the Holy Roman Empire of the German Nation from the 16th century onwards."
+      description: {
+        en: "A complex of territories in central Europe that developed during the Middle Ages. It was also known as the Holy Roman Empire of the German Nation from the 16th century onwards.",
+        it: "Un complesso di territori nell'Europa centrale sviluppatosi durante il Medioevo. Era anche conosciuto come Sacro Romano Impero della Nazione Germanica dal XVI secolo in poi."
+      }
     },
     {
-      title: "World War II",
+      title: {
+        en: "World War II",
+        it: "Seconda Guerra Mondiale"
+      },
       period: "1939-1945",
-      description: "A global war that involved most of the world's nations. Key events included D-Day invasion, Battle of Stalingrad, and the Pacific Theater."
+      description: {
+        en: "A global war that involved most of the world's nations. Key events included D-Day invasion, Battle of Stalingrad, and the Pacific Theater.",
+        it: "Una guerra globale che ha coinvolto la maggior parte delle nazioni del mondo. Eventi chiave includono lo sbarco in Normandia, la battaglia di Stalingrado e il teatro del Pacifico."
+      }
     },
     {
-      title: "French Revolution",
+      title: {
+        en: "French Revolution",
+        it: "Rivoluzione Francese"
+      },
       period: "1789-1799",
-      description: "A period of radical social and political upheaval in French history that had a lasting impact on French history and more broadly throughout Europe."
+      description: {
+        en: "A period of radical social and political upheaval in French history that had a lasting impact on French history and more broadly throughout Europe.",
+        it: "Un periodo di radicale sconvolgimento sociale e politico nella storia francese che ha avuto un impatto duraturo sulla storia francese e più in generale in tutta Europa."
+      }
     }
   ];
 
   const geographyQuizzes: GeographyQuiz[] = [
     {
-      question: "What is the largest desert in the world?",
+      question: {
+        en: "What is the largest desert in the world?",
+        it: "Qual è il deserto più grande del mondo?"
+      },
       options: ["Sahara", "Antarctic", "Arctic", "Gobi"],
       correctAnswer: "Antarctic"
     },
     {
-      question: "Which mountain range runs through Italy?",
+      question: {
+        en: "Which mountain range runs through Italy?",
+        it: "Quale catena montuosa attraversa l'Italia?"
+      },
       options: ["Alps", "Andes", "Himalayas", "Rockies"],
       correctAnswer: "Alps"
     },
     {
-      question: "What is the capital of Brazil?",
+      question: {
+        en: "What is the capital of Brazil?",
+        it: "Qual è la capitale del Brasile?"
+      },
       options: ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"],
       correctAnswer: "Brasília"
     }
@@ -56,29 +86,37 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Welcome Back</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {language === 'en' ? 'Welcome Back' : 'Bentornato'}
+        </h1>
         <p className="text-muted-foreground">
-          Here's an overview of your activity
+          {language === 'en' ? "Here's an overview of your activity" : "Ecco una panoramica della tua attività"}
         </p>
       </div>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {historyCards.map((card, index) => (
-          <Card key={index} className="p-6 hover-scale glass">
-            <h3 className="font-semibold mb-2">{card.title}</h3>
+          <Card 
+            key={index} 
+            className={`p-6 hover-scale glass cursor-pointer ${selectedCard === index ? 'ring-2 ring-primary' : ''}`}
+            onClick={() => setSelectedCard(index)}
+          >
+            <h3 className="font-semibold mb-2">{card.title[language]}</h3>
             <p className="text-sm text-muted-foreground mb-2">
-              Period: {card.period}
+              {language === 'en' ? 'Period' : 'Periodo'}: {card.period}
             </p>
             <p className="text-sm">
-              {card.description}
+              {card.description[language]}
             </p>
           </Card>
         ))}
 
         {geographyQuizzes.map((quiz, index) => (
           <Card key={index} className="p-6 hover-scale glass">
-            <h3 className="font-semibold mb-4">Geography Quiz #{index + 1}</h3>
-            <p className="text-sm mb-4">{quiz.question}</p>
+            <h3 className="font-semibold mb-4">
+              {language === 'en' ? 'Geography Quiz' : 'Quiz di Geografia'} #{index + 1}
+            </h3>
+            <p className="text-sm mb-4">{quiz.question[language]}</p>
             <div className="space-y-2">
               {quiz.options.map((option, optionIndex) => (
                 <Button
