@@ -31,6 +31,32 @@ export default function Home() {
             Add new entry or book note
           </p>
         </Card>
+
+        <Card className="p-6 hover-scale glass md:col-span-2">
+          <h3 className="font-semibold mb-4">History Summary</h3>
+          <div className="space-y-2">
+            <p className="text-sm">
+              <strong>Current Topic:</strong> World War II
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Key events: D-Day invasion, Battle of Stalingrad, and the Pacific Theater.
+              Next week's focus will be on the post-war period and the beginning of the Cold War.
+            </p>
+          </div>
+        </Card>
+
+        <Card className="p-6 hover-scale glass">
+          <h3 className="font-semibold mb-4">Geography Overview</h3>
+          <div className="space-y-2">
+            <p className="text-sm">
+              <strong>Current Region:</strong> South America
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Studying the Amazon Rainforest ecosystem and its impact on global climate.
+              Next up: The Andes Mountains and their geological formation.
+            </p>
+          </div>
+        </Card>
       </div>
     </div>
   );

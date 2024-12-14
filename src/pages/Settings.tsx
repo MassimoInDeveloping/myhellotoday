@@ -1,6 +1,21 @@
 import { Card } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Settings() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { toast } = useToast();
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle("dark");
+    toast({
+      title: "Theme Updated",
+      description: `Switched to ${isDarkMode ? "light" : "dark"} mode`,
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -9,24 +24,20 @@ export default function Settings() {
       </div>
       
       <Card className="p-6 glass">
-        <h3 className="font-semibold mb-4">General Settings</h3>
+        <h3 className="font-semibold mb-4">Appearance Settings</h3>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Notifications</p>
+              <p className="font-medium">Theme</p>
               <p className="text-sm text-muted-foreground">
-                Manage your notification preferences
+                Choose between dark and light mode
               </p>
             </div>
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-medium">Appearance</p>
-              <p className="text-sm text-muted-foreground">
-                Customize your interface
-              </p>
-            </div>
+            <Switch
+              checked={isDarkMode}
+              onCheckedChange={toggleTheme}
+              aria-label="Toggle theme"
+            />
           </div>
         </div>
       </Card>
