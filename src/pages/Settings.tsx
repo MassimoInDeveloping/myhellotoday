@@ -4,6 +4,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/hooks/useLanguage";
+import { Settings as SettingsIcon, Globe } from "lucide-react";
 
 const languages = {
   en: {
@@ -16,7 +18,7 @@ const languages = {
     themeUpdated: "Theme Updated",
     switchedTo: "Switched to",
     languageUpdated: "Language Updated",
-    switchedToLang: "Switched to Italian"
+    switchedToLang: "Language changed successfully"
   },
   it: {
     theme: "Tema",
@@ -28,21 +30,19 @@ const languages = {
     themeUpdated: "Tema Aggiornato",
     switchedTo: "Passato a",
     languageUpdated: "Lingua Aggiornata",
-    switchedToLang: "Passato all'italiano"
+    switchedToLang: "Lingua cambiata con successo"
   }
 };
 
 export default function Settings() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [language, setLanguage] = useState<"en" | "it">("en");
+  const { language, setLanguage } = useLanguage();
   const { toast } = useToast();
   const t = languages[language];
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains("dark");
     setIsDarkMode(isDark);
-    const savedLang = localStorage.getItem("language") as "en" | "it";
-    if (savedLang) setLanguage(savedLang);
   }, []);
 
   const toggleTheme = () => {
@@ -56,7 +56,6 @@ export default function Settings() {
 
   const changeLanguage = (newLang: "en" | "it") => {
     setLanguage(newLang);
-    localStorage.setItem("language", newLang);
     toast({
       title: t.languageUpdated,
       description: t.switchedToLang,
@@ -66,7 +65,10 @@ export default function Settings() {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">{t.settings}</h1>
+        <div className="flex items-center gap-2">
+          <SettingsIcon className="h-6 w-6" />
+          <h1 className="text-3xl font-bold tracking-tight">{t.settings}</h1>
+        </div>
         <p className="text-muted-foreground">{t.managePreferences}</p>
       </div>
       
@@ -90,7 +92,10 @@ export default function Settings() {
       </Card>
 
       <Card className="p-6 glass">
-        <h3 className="font-semibold mb-4">{t.language}</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <Globe className="h-5 w-5" />
+          <h3 className="font-semibold">{t.language}</h3>
+        </div>
         <div className="space-y-4">
           <RadioGroup
             defaultValue={language}
