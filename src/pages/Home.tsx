@@ -136,7 +136,7 @@ export default function Home() {
           </h1>
         </div>
         <p className="text-muted-foreground">
-          {language === 'en' ? "Here's an overview of your activity" : "Ecco una panoramica della tua attività"}
+          {language === 'en' ? "Here's an overview of SCDemo" : "Ecco una panoramica delle funzioni in SCDemo"}
         </p>
       </div>
       
